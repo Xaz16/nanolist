@@ -3,8 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://nanolist-xaz16.c9users.io/nanolist/libs/mui-0.9.16/css/mui.min.css">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
-    <h1>It works</h1>
+    <div class="mui-appbar">
+        <h1 class="mui--text-headline vertical-headline">Nanolist by Aleksey Chipiga - plodder from abz.agency</h1>
+    </div>
+
+    <output id="output"></output>
+
+    <script>
+        function SelectEd() {
+
+            this.getSelection = function () {
+                return window.getSelection().toString();
+            };
+
+            this.appendSelection = function (selection) {
+                var p = document.createElement('p');
+
+                p.innerHTML = selection;
+                document.getElementById('output').appendChild(p);
+            };
+
+        }
+
+        var api = new SelectEd();
+        document.onmouseup = function () {
+            if (api.getSelection()) {
+                api.appendSelection(api.getSelection() + ' ' + window.location.href);
+            }
+        };
+    </script>
+
 </body>
 </html>

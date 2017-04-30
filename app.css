@@ -1,0 +1,10 @@
+html, body {
+    width: 700px;
+    height: 500px;
+}
+
+.vertical-headline {
+    margin: 0;
+    line-height: 64px;
+    text-align: center;
+}
