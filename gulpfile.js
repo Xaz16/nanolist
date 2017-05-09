@@ -9,25 +9,20 @@ var gulp = require('gulp'),
     fs = require('fs'),
     rev = require('gulp-rev');
 
-gulp.task('clean', function () {
-   return gulp.src('build/assets', {read: false})
-       .pipe(clean());
-});
-
-gulp.task('script', function () {
+gulp.task('ext:script', function () {
     return gulp.src([
-        'src/js/app.js',
-        'node_modules/muicss/dist/js/mui.min.js'
+        'node_modules/muicss/dist/js/mui.min.js',
+        'src/js/app.js'
     ])
         .pipe(concat('app.js'))
         .pipe(uglifyjs())
         .pipe(gulp.dest('build/assets/'))
 });
 
-gulp.task('style', function () {
+gulp.task('ext:style', function () {
     return gulp.src([
-        'src/css/app.css',
-        'node_modules/muicss/dist/css/mui.min.css'
+        'node_modules/muicss/dist/css/mui.min.css',
+        'src/css/app.css'
     ])
         .pipe(concat('app.css'))
         .pipe(uglifycss())
@@ -35,7 +30,7 @@ gulp.task('style', function () {
 
 });
 
-gulp.task('html', function () {
+gulp.task('ext:html', function () {
     var json = JSON.parse(fs.readFileSync('./rev-manifest.json'));
 
     return gulp.src('src/popup.html')
@@ -46,6 +41,16 @@ gulp.task('html', function () {
         .pipe(gulp.dest('build/'))
 });
 
+gulp.task('clean', function () {
+    return gulp.src('build/assets', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean:unrev', function () {
+    return gulp.src(['build/assets/app.css', 'build/assets/app.js'], {read: false})
+        .pipe(clean());
+});
+
 gulp.task('rev', function () {
     return gulp.src(['build/assets/app.js', 'build/assets/app.css'])
         .pipe(rev())
@@ -54,6 +59,12 @@ gulp.task('rev', function () {
         .pipe(gulp.dest('./'));
 });
 
+gulp.task('content:scripts', function () {
+    return gulp.src(['src/js/*.js', '!src/js/app.js'])
+        .pipe(uglifyjs())
+        .pipe(gulp.dest('build/assets'));
+});
+
 gulp.task('default', function () {
-    order('clean', 'script', 'style', 'rev', 'html');
+    order('clean', 'ext:script', 'ext:style', 'rev', 'clean:unrev', 'ext:html', 'content:scripts');
 });

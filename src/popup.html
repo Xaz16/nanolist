@@ -10,22 +10,30 @@
 </head>
 <body>
 
+    <form class="mui-form--inline search-form" name="search">
+        <div class="mui-textfield search-form__input-wrap">
+            <input type="text" name="search_input" class="search-form__input">
+        </div>
+        <button class="mui-btn mui-btn--raised mui-btn--primary" id="search-form__submit" name="search_submit">submit</button>
+    </form>
+
+    <div class="mui-divider"></div>
+
     <ul class="mui-tabs__bar mui-tabs__bar--justified">
-        <li class="mui--is-active green-tab"><a data-mui-toggle="tab" data-mui-controls="pane-justified-1">First List</a></li>
-        <li class="red-tab"><a data-mui-toggle="tab" data-mui-controls="pane-justified-2">Second List</a></li>
+        <li class="mui--is-active green-tab"><a data-mui-toggle="tab" data-mui-controls="pane-justified-1">Green List</a></li>
+        <li class="red-tab"><a data-mui-toggle="tab" data-mui-controls="pane-justified-2">Red List</a></li>
     </ul>
 
     <div class="mui-tabs__pane mui--is-active" id="pane-justified-1">
 
+    </div>
 
+    <div class="mui-tabs__pane" id="pane-justified-2">
 
     </div>
-    <div class="mui-tabs__pane" id="pane-justified-2">Pane-2</div>
-
-    <output id="output"></output>
 
     <div class="mui-divider"></div>
-    <h1 class="mui--text-caption vertical-headline">Nanolist by Aleksey Chipiga - plodder from abz.agency</h1>q
+    <h1 class="mui--text-caption bottom-caption mui--text-dark-hint">Nanolist by Aleksey Chipiga - plodder from abz.agency</h1>
 
     <!-- build:js -->
     <!-- endbuild -->

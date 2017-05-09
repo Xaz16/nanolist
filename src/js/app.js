@@ -1,20 +1,19 @@
-var word = "foo",
-    queue = [document.body],
-    curr
-;
-while (curr = queue.pop()) {
-    if (!curr.textContent.match(word)) continue;
-    for (var i = 0; i < curr.childNodes.length; ++i) {
-        switch (curr.childNodes[i].nodeType) {
-            case Node.TEXT_NODE : // 3
-                if (curr.childNodes[i].textContent.match(word)) {
-                    console.log("Found!");
-                    console.log(curr);
-                }
-                break;
-            case Node.ELEMENT_NODE : // 1
-                queue.push(curr.childNodes[i]);
-                break;
-        }
+var port = chrome.runtime.connect(),
+$search = document.forms['search'];
+
+window.addEventListener("message", function (event) {
+
+    if (event.source != window)
+        return;
+
+    if (event.data.type && (event.data.type == "FROM_PAGE")) {
+        console.log("Content script received: " + event.data.text);
+        port.postMessage(event.data.text);
     }
-}
+}, false);
+
+$search.elements['search_submit'].addEventListener("click", function() {
+    console.log('post' + $search.elements['search_input'].val);
+    window.postMessage({ type: "FROM_PAGE", text: $search.elements['search_input'].val }, "*");
+}, false);
+
