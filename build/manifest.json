@@ -10,6 +10,8 @@
   },
   "permissions": [
     "activeTab",
-    "https://nanolist-xaz16.c9users.io/"
-  ]
+    "http://*/",
+    "https://*/"
+  ],
+  "content_security_policy": "script-src 'unsafe-eval'; object-src 'self';"
 }
