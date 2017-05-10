@@ -1,24 +1,58 @@
-html, body {
+body {
     width: 600px;
     min-height: 400px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
 }
 
 .bottom-caption {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 5px;
+    right: 15px;
     margin: 0;
 }
 
-.search-form {
+.form {
     margin-bottom: 20px;
 }
 
-.search-form .search-form__input-wrap {
-    width: calc(100% - 115px);
+.form .form__input-wrap {
+    width: calc(100% - 87px);
 }
 
-.search-form .search-form__input {
+.form .form__input {
     width: 100%;
 }
 
+.remove-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#green-list,
+#red-list {
+    position: relative;
+    padding: 5px 15px;
+}
+
+.item-container {
+    margin-top: 20px;
+}
+
+.item {
+    position: relative;
+    min-height: 36px;
+    line-height: 36px;
+}
+
+#find {
+    margin: 0 auto;
+    display: block;
+}

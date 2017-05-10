@@ -4,19 +4,10 @@
     <meta charset="UTF-8">
     <title>Nanolist</title>
 
-    <link rel="stylesheet" href="assets/app-0531f5faeb.css">
+    <link rel="stylesheet" href="assets/app-ec539828cd.css">
 
 </head>
 <body>
-
-    <form class="mui-form--inline search-form" name="search">
-        <div class="mui-textfield search-form__input-wrap">
-            <input type="text" name="search_input" class="search-form__input">
-        </div>
-        <button class="mui-btn mui-btn--raised mui-btn--primary" id="search-form__submit" name="search_submit">submit</button>
-    </form>
-
-    <div class="mui-divider"></div>
 
     <ul class="mui-tabs__bar mui-tabs__bar--justified">
         <li class="mui--is-active green-tab"><a data-mui-toggle="tab" data-mui-controls="pane-justified-1">Green List</a></li>
@@ -24,17 +15,36 @@
     </ul>
 
     <div class="mui-tabs__pane mui--is-active" id="pane-justified-1">
-
+        <div id="green-list">
+            <div class="mui-form--inline green-form form">
+                <div class="mui-textfield green-form__input-wrap form__input-wrap">
+                    <input type="text" name="green-form_input" id="form__input--green" class="green-form__input form__input"
+                           required>
+                </div>
+                <button class="mui-btn mui-btn--raised mui-btn--primary" id="green-form__submit" name="green-form_submit">Add</button>
+                <div class="item-container"></div>
+            </div>
+        </div>
     </div>
 
     <div class="mui-tabs__pane" id="pane-justified-2">
-
+        <div id="red-list">
+            <div class="mui-form--inline red-form form">
+                <div class="mui-textfield red-form__input-wrap form__input-wrap">
+                    <input type="text" name="red-form_input" id="form__input--red" class="red-form__input form__input"
+                           required>
+                </div>
+                <button class="mui-btn mui-btn--raised mui-btn--primary" id="red-form__submit" name="red-form_submit">Add</button>
+                <div class="item-container"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="mui-divider"></div>
-    <h1 class="mui--text-caption bottom-caption mui--text-dark-hint">Nanolist by Aleksey Chipiga - plodder from abz.agency</h1>
+    <p class="mui--text-caption bottom-caption mui--text-dark-hint">Nanolist by Aleksey Chipiga - plodder from abz.agency</p>
 
-    <script src="assets/app-64c0ad7c46.js"></script>
+    <button class="mui-btn mui-btn--primary" id="find">Find them all!</button>
+
+    <script src="assets/app-f771c1ce1a.js"></script>
 
 </body>
 </html>

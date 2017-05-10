@@ -15,7 +15,7 @@ gulp.task('ext:script', function () {
         'src/js/app.js'
     ])
         .pipe(concat('app.js'))
-        .pipe(uglifyjs())
+        // .pipe(uglifyjs())
         .pipe(gulp.dest('build/assets/'))
 });
 
