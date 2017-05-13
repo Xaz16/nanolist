@@ -61,7 +61,7 @@ gulp.task('rev', function () {
 
 gulp.task('content:scripts', function () {
     return gulp.src(['src/js/*.js', '!src/js/app.js'])
-        .pipe(uglifyjs())
+        // .pipe(uglifyjs())
         .pipe(gulp.dest('build/assets'));
 });
 
