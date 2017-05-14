@@ -5,10 +5,49 @@ body {
     position: relative;
 }
 
+@font-face {
+    font-family: 'DKKnucklebones';
+    src: url('../DKKnucklebones-Regular.ttf');
+}
+
 *,
 *:after,
 *:before {
     box-sizing: border-box;
+}
+
+a:hover svg {
+    fill: #000;
+}
+
+.options {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 15px;
+
+}
+
+.appbar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.decorative {
+    font-size: 53px;
+    margin: 0;
+    line-height: initial;
+    letter-spacing: 7px;
+    padding-right: 20px;
+    font-family: 'DKKnucklebones';
+
+}
+
+.appbar-flex__actions {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .bottom-caption {
@@ -33,7 +72,13 @@ body {
 .remove-btn {
     position: absolute;
     right: 0;
-    top: 0;
+    transform: translateY(-50%);
+    top: 50%;
+    display: inline-flex;
+}
+
+.remove-btn:hover svg{
+    fill: #f00;
 }
 
 #green-list,

@@ -1,4 +1,6 @@
-function search(word, color) {
+var changedElements = [];
+
+function search(word, color, remove) {
     var searchArr = [document.body],
         current;
 
@@ -11,9 +13,13 @@ function search(word, color) {
             switch (current.childNodes[i].nodeType) {
                 case Node.TEXT_NODE : // 3
                     if (current.childNodes[i].textContent.match(word)) {
-                        console.log('highlight');
-                        var highlighted = '<span class="nano-list-chrome-extension-detect" style="display:inline-block;background-color:' + color +  ';">' + word + '</span>'
-                        current.innerHTML = current.innerHTML.replace(word, highlighted);
+                        var highlighted = '<span class="nano-list-chrome-extension-detect" style="display:inline-block;background-color:' + color +  '!important;">' + word + '</span>'
+                        if(remove) {
+                            current.parentElement.innerHTML = current.parentElement.innerHTML.replace(highlighted, word);
+                        } else {
+                            current.innerHTML = current.innerHTML.replace(word, highlighted);
+                            changedElements.push(current);
+                        }
                     }
                     break;
                 case Node.ELEMENT_NODE : // 1
@@ -27,17 +33,23 @@ function search(word, color) {
 
 }
 
-console.log(chrome);
-
 chrome.storage.sync.get(null, function (result) {
     console.log(result);
-    for(key in result) {
-        var color = result[key];
-        for(keys in color) {
-            var word = color[keys];
+    for(data in result) {
+        if(data !== 'lists') {
+            search(result[data].text, result[data].color);
+        }
+    }
+});
 
-            console.log(word);
-            search(word, Object.keys(color));
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+    for (key in changes) {
+        var storageChange = changes[key];
+        console.log(storageChange.newValue, storageChange);
+        if(storageChange.newValue == undefined && storageChange.oldValue) {
+            search(storageChange.oldValue.text, storageChange.oldValue.color, true);
+        } else {
+            search(storageChange.newValue.text, storageChange.newValue.color);
         }
     }
 });

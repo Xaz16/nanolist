@@ -33,7 +33,7 @@ gulp.task('ext:style', function () {
 gulp.task('ext:html', function () {
     var json = JSON.parse(fs.readFileSync('./rev-manifest.json'));
 
-    return gulp.src('src/popup.html')
+    return gulp.src(['src/main.html', 'src/options.html'])
         .pipe(replace({
             js: 'assets/' + json['app.js'],
             css: 'assets/' + json['app.css']

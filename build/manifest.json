@@ -4,10 +4,15 @@
   "description": "List from webpages selection for abz.agency",
   "author": "Aleksey Chipiga",
   "version": "0.7.0",
-  "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+  "icons": { 
+    "16": "chip16.png",
+    "48": "chip48.png",
+    "128": "chip128.png" 
   },
+  "browser_action": {
+    "default_popup": "main.html"
+  },
+  "options_page": "options.html",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
