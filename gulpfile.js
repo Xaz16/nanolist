@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     order = require('gulp-run-sequence'),
     fs = require('fs'),
+    zip = require('gulp-zip'),
     rev = require('gulp-rev');
 
 gulp.task('ext:script', function () {
@@ -15,7 +16,7 @@ gulp.task('ext:script', function () {
         'src/js/app.js'
     ])
         .pipe(concat('app.js'))
-        // .pipe(uglifyjs())
+        .pipe(uglifyjs())
         .pipe(gulp.dest('build/assets/'))
 });
 
@@ -61,10 +62,21 @@ gulp.task('rev', function () {
 
 gulp.task('content:scripts', function () {
     return gulp.src(['src/js/*.js', '!src/js/app.js'])
-        // .pipe(uglifyjs())
+        .pipe(uglifyjs())
         .pipe(gulp.dest('build/assets'));
 });
 
+gulp.task('build:clean', function () {
+    return gulp.src('nanolist.zip')
+        .pipe(clean());
+});
+
+gulp.task('build:zip', function () {
+    return gulp.src('build')
+        .pipe(zip('nanolist.zip'))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('default', function () {
-    order('clean', 'ext:script', 'ext:style', 'rev', 'clean:unrev', 'ext:html', 'content:scripts');
+    order('clean', 'ext:script', 'ext:style', 'rev', 'clean:unrev', 'ext:html', 'content:scripts', 'build:clean', 'build:zip');
 });

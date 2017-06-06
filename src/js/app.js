@@ -18,7 +18,7 @@ function Item() {
 
         block.appendChild(removeBtn);
 
-        if($container == null) {
+        if($container === null) {
             $container.appendChild(block);
         } else {
             $container.insertBefore(block, $container.firstChild);
@@ -28,7 +28,7 @@ function Item() {
     this.add = function(elm, isInput) {
 
         var itemsCount = document.querySelectorAll('.item');
-        (itemsCount == null) ? itemsCount = 0 : itemsCount = itemsCount.length;
+        (itemsCount === null) ? itemsCount = 0 : itemsCount = itemsCount.length;
 
         var listId;
 
