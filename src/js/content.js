@@ -12,7 +12,7 @@ function search(word, color, remove) {
 
             switch (current.childNodes[i].nodeType) {
                 case Node.TEXT_NODE : // 3
-                    if (current.childNodes[i].textContent.match(word)) {
+                    if (current.childNodes[i].textContent.match(word) && current.tagName !== 'SCRIPT') {
                         var highlighted = '<span class="nano-list-chrome-extension-detect" style="display:inline-block;background-color:' + color +  '!important;">' + word + '</span>'
                         if(remove) {
                             current.parentElement.innerHTML = current.parentElement.innerHTML.replace(highlighted, word);

@@ -3,7 +3,7 @@
   "name": "Nanolist",
   "description": "List from webpages selection for abz.agency",
   "author": "Aleksey Chipiga",
-  "version": "0.7.0",
+  "version": "0.7.10",
   "icons": { 
     "16": "chip16.png",
     "48": "chip48.png",
