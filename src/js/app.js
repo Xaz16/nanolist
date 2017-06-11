@@ -1,6 +1,6 @@
 function Item() {
 
-    function prepend($container, id, val) {
+    function prepend($container, id, val, requestColor) {
         var block = document.createElement('p');
         block.dataset.id = id;
         block.className = 'item mui--text-body1';
@@ -12,8 +12,18 @@ function Item() {
 
 
         removeBtn.onclick = function () {
-            chrome.storage.sync.remove(block.dataset.id, function () {});
-            this.parentElement.remove();
+            var elm = this;
+
+            var deleteReq = new XMLHttpRequest();
+            deleteReq.open("DELETE", "http://localhost:3000/delete/" + requestColor);
+            deleteReq.onreadystatechange = function () {
+                if(deleteReq.readyState === XMLHttpRequest.DONE && deleteReq.status === 201) {
+                    console.log(deleteReq.responseText);
+                    elm.parentElement.remove();
+                }
+            };
+            deleteReq.setRequestHeader('Content-Type', 'text/plain');
+            deleteReq.send(val);
         };
 
         block.appendChild(removeBtn);
@@ -41,6 +51,7 @@ function Item() {
         var $container = document.querySelector('.list[data-id="'+ listId + '"] .item-container'),
             val = document.querySelector('.list[data-id="' + listId + '"] input').value,
             color = document.querySelector('.list[data-id="'+ listId + '"]').dataset.color,
+            requestColor = document.querySelector('.list[data-id="' + listId + '"] input').name,
             id = itemsCount + 1,
             data = {};
 
@@ -48,29 +59,42 @@ function Item() {
             return;
         }
 
-        data[id] = {};
-        data[id].color = color;
-        data[id].text = val;
-        data[id].listId = listId;
+        var addItem = new XMLHttpRequest();
+        addItem.open("POST", "http://localhost:3000/add/" + requestColor, true);
+        addItem.onreadystatechange = function () {
+            if(addItem.readyState === XMLHttpRequest.DONE && addItem.status === 200) {
+                console.log(addItem.responseText);
+                prepend($container, id, val, color, requestColor);
+                document.querySelector('.list[data-id="'+ listId + '"] input').value = '';
+            }
+        };
+        addItem.setRequestHeader('Content-Type', 'text/plain');
+        addItem.send(JSON.stringify(val));
 
-        chrome.storage.sync.set(data, function () {});
-
-        prepend($container, id, val);
-
-        document.querySelector('.list[data-id="'+ listId + '"] input').value = '';
     };
 
-    this.getAllItems = function () {
-        chrome.storage.sync.get(null, function (result) {
-            for(data in result) {
-                if(data !== 'lists') {
-                    var listId = result[data].listId,
-                        $container = document.querySelector('.list[data-id="' + listId + '"] .item-container');
+    this.getLists = function () {
 
-                    prepend($container, data, result[data].text);
+        var getLists = new XMLHttpRequest();
+        getLists.open("GET", "http://localhost:3000/lists", true);
+        getLists.onreadystatechange = function () {
+            if(getLists.readyState === XMLHttpRequest.DONE && getLists.status === 200) {
+                console.log(getLists.responseText);
+                var resObj = JSON.parse(getLists.responseText);
+
+                for(list in resObj) {
+                    var $container = document.querySelector('.item-container[data-name="' + resObj[list].name + '"]');
+
+                    for(var i = 0; i < resObj[list].items.length; i++) {
+                        prepend($container, i, resObj[list].items[i], resObj[list].name);
+                    }
                 }
+
+
+
             }
-        });
+        };
+        getLists.send();
     }
 
 }
@@ -92,11 +116,6 @@ function List() {
         return listsArr;
     };
 
-    this.setColor = function(list, color) {
-        list.dataset.color = color;
-
-        chrome.storage.sync.set({})
-    };
 
     function getColor(list, id) {
         chrome.storage.sync.get('lists', function (result) {
@@ -147,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var $inputs = document.getElementsByClassName('form__input');
 
         list.init();
-        item.getAllItems();
+        item.getLists();
 
 
         document.getElementById('green-form__submit').onclick = function () {
@@ -167,10 +186,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     }
-
-});
-
-
-chrome.storage.onChanged.addListener(function(changes, namespace) {
 
 });
