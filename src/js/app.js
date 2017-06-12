@@ -1,6 +1,6 @@
 function Item() {
 
-    function prepend($container, id, val, requestColor) {
+    function prepend($container, id, val, color, requestColor) {
         var block = document.createElement('p');
         block.dataset.id = id;
         block.className = 'item mui--text-body1';
@@ -20,6 +20,11 @@ function Item() {
                 if(deleteReq.readyState === XMLHttpRequest.DONE && deleteReq.status === 201) {
                     console.log(deleteReq.responseText);
                     elm.parentElement.remove();
+                    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {text:val, color:color, remove: true}, function(response) {
+                            console.log(response);
+                        });
+                    });
                 }
             };
             deleteReq.setRequestHeader('Content-Type', 'text/plain');
@@ -66,6 +71,11 @@ function Item() {
                 console.log(addItem.responseText);
                 prepend($container, id, val, color, requestColor);
                 document.querySelector('.list[data-id="'+ listId + '"] input').value = '';
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {text:val, color:color}, function(response) {
+                        console.log(response);
+                    });
+                });
             }
         };
         addItem.setRequestHeader('Content-Type', 'text/plain');

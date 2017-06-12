@@ -33,23 +33,32 @@ function search(word, color, remove) {
 
 }
 
-chrome.storage.sync.get(null, function (result) {
-    console.log(result);
-    for(data in result) {
-        if(data !== 'lists') {
-            search(result[data].text, result[data].color);
-        }
-    }
-});
-
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for (key in changes) {
-        var storageChange = changes[key];
-        console.log(storageChange.newValue, storageChange);
-        if(storageChange.newValue == undefined && storageChange.oldValue) {
-            search(storageChange.oldValue.text, storageChange.oldValue.color, true);
+chrome.runtime.onMessage.addListener(
+    function(request) {
+        if(request.remove === void(0)) {
+            search(request.text, request.color);
         } else {
-            search(storageChange.newValue.text, storageChange.newValue.color);
+            search(request.text, request.color, true);
         }
-    }
-});
+    });
+
+// chrome.storage.sync.get(null, function (result) {
+//     console.log(result);
+//     for(data in result) {
+//         if(data !== 'lists') {
+//             search(result[data].text, result[data].color);
+//         }
+//     }
+// });
+//
+// chrome.storage.onChanged.addListener(function(changes, namespace) {
+//     for (key in changes) {
+//         var storageChange = changes[key];
+//         console.log(storageChange.newValue, storageChange);
+//         if(storageChange.newValue == undefined && storageChange.oldValue) {
+//             search(storageChange.oldValue.text, storageChange.oldValue.color, true);
+//         } else {
+//             search(storageChange.newValue.text, storageChange.newValue.color);
+//         }
+//     }
+// });
