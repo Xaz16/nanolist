@@ -2,22 +2,22 @@ var changedElements = [];
 
 function search(word, color, remove) {
     var searchArr = [document.body],
-        current;
-
+        current,
+        regWord = new RegExp('(' + word + ')(?![^<]*>|[^<>]*<\\/)', "g"),
+        highlighted = '<nanolist-highlight class="nano-list-chrome-extension-detect" style="display:inline-block;background-color:' + color +  '!important;">' + word + '</nanolist-highlight>';
     while (current = searchArr.pop()) {
 
-        if (!current.textContent.match(word)) continue;
+        if (!current.textContent.match(regWord)) continue;
 
         for (var i = 0; i < current.childNodes.length; ++i) {
 
-            switch (current.childNodes[i].nodeType) {
+            switch (current.childNodes[i].nodeType ) {
                 case Node.TEXT_NODE : // 3
                     if (current.childNodes[i].textContent.match(word) && current.tagName !== 'SCRIPT') {
-                        var highlighted = '<span class="nano-list-chrome-extension-detect" style="display:inline-block;background-color:' + color +  '!important;">' + word + '</span>'
                         if(remove) {
                             current.parentElement.innerHTML = current.parentElement.innerHTML.replace(highlighted, word);
                         } else {
-                            current.innerHTML = current.innerHTML.replace(word, highlighted);
+                            current.innerHTML = current.innerHTML.replace(regWord, highlighted);
                             changedElements.push(current);
                         }
                     }
